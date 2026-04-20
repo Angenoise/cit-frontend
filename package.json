@@ -1,5 +1,6 @@
 {
   "name": "cit-document-tracker",
+  "author": "Angenoise <maf-delacruz.student@ua.edu.ph>",
   "private": true,
   "version": "1.0.0",
   "type": "module",
