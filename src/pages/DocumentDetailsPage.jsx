@@ -11,7 +11,6 @@ function DocumentDetailsPage() {
   const navigate = useNavigate()
   const { document, fetchDocument, isLoading } = useDocumentStore()
   const [accessKey, setAccessKey] = useState('')
-  const [qrCode, setQrCode] = useState('')
   const [error, setError] = useState('')
   const [copied, setCopied] = useState(false)
 
@@ -22,7 +21,6 @@ function DocumentDetailsPage() {
   useEffect(() => {
     if (document?.is_owner) {
       loadAccessKey()
-      loadQRCode()
     }
   }, [document])
 
@@ -32,15 +30,6 @@ function DocumentDetailsPage() {
       setAccessKey(data.access_key)
     } catch (err) {
       setError('Failed to load access key')
-    }
-  }
-
-  const loadQRCode = async () => {
-    try {
-      const data = await api.getQRCode(id)
-      setQrCode(data.qr_code)
-    } catch (err) {
-      setError('Failed to load QR code')
     }
   }
 
@@ -124,10 +113,12 @@ function DocumentDetailsPage() {
                 <h3>Access & Sharing</h3>
               </div>
               <div className="card-body">
-                {qrCode && (
+                {document.encrypted_id && (
                   <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                     <p style={{ fontSize: '0.9rem', color: 'var(--text-light)', marginBottom: '1rem' }}>QR Code</p>
-                    <img src={`data:image/png;base64,${qrCode}`} alt="QR Code" style={{ width: '150px', height: '150px', border: '2px solid var(--border)', borderRadius: '8px', padding: '0.5rem' }} />
+                    <div style={{ display: 'inline-block', border: '2px solid var(--border)', borderRadius: '8px', padding: '0.5rem' }}>
+                      <QRCode value={`doc:${document.encrypted_id}`} size={128} />
+                    </div>
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-light)', marginTop: '0.5rem' }}>Scan to access document</p>
                   </div>
                 )}

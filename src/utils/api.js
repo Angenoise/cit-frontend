@@ -101,13 +101,6 @@ export const api = {
     return response.json()
   },
 
-  getQRCode: async (id) => {
-    const response = await fetch(`${API_BASE_URL}/documents/${id}/get_qr_code/`, {
-      headers: api.getHeaders(),
-    })
-    return response.json()
-  },
-
   // QR and Access Key
   scanQR: async (encryptedId) => {
     const response = await fetch(`${API_BASE_URL}/qr/scan/`, {
